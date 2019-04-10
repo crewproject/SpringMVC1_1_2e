@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mvc.app.board.dao.BoardDAO">
+
+	<select id="test" resultType="java.util.HashMap">
+		SELECT 
+			 id, name, email, pass, title, comment, wdate, ip, see	
+		FROM 
+			 bbs
+	</select>
+	
+	<!-- insert bbs -->
+	<insert id="insertBBS" parameterType="com.mvc.app.data.BBSVO">
+		INSERT INTO bbs(
+			id, 
+			name, 
+			email, 
+			pass, 
+			title, 
+			comment, 
+			wdate, 
+			ip, 
+			see)
+		VALUES(
+			(SELECT MAX 
+			FROM (SELECT MAX(id)+1 As 'MAX' FROM bbs) AS getMax
+		),
+		 #{name}, #{email}, #{pass},#{title}, #{comment}, NOW(), #{ip}, 0
+		);
+	</insert>
+	
+	<!-- select one -->
+	<select id="selectOneBBS" parameterType="java.lang.String" resultType="com.mvc.app.data.BBSVO">
+		SELECT 
+			 id, 
+			 name, 
+			 email,
+			 pass, 
+			 title, 
+			 comment, 
+			 DATE_FORMAT(wdate, '%X/%c/%e') "wdate", 
+			 see	
+		FROM 
+			  bbs
+		WHERE 
+			  id=#{id}
+	</select>
+	<!-- select list -->
+	<select id="selectListBBS" resultType="com.mvc.app.data.BBSVO">
+		SELECT 
+			 id, name, title, 
+			 DATE_FORMAT(wdate, '%X/%c/%e') "wdate",
+			 see	
+		FROM 
+			 bbs
+	</select>
+	
+	<!-- ${}은 ''없이 검색되고 ${}는 ''가 자동으로 추가된다. -->
+	<!-- select list for search-->
+	<select id="selectSearchListBBS" resultType="com.mvc.app.data.BBSVO">
+		SELECT 
+			 id, name, title, 
+			 DATE_FORMAT(wdate, '%X/%c/%e') "wdate",
+			 see	
+		FROM 
+			 bbs
+		WHERE 
+			 ${searchType} LIKE '%${text}%'
+	</select>
+	
+	<!-- update see -->
+	<update id="updateSee" parameterType="java.lang.String">
+		UPDATE bbs SET SEE = SEE+1 WHERE id=#{id}
+	</update>
+	
+	<!-- update bbs -->
+	<update id="updateBBS" parameterType="com.mvc.app.data.BBSVO">
+		UPDATE 
+				bbs 
+		SET
+				title = #{title},
+				comment = #{comment}
+		WHERE 
+				id=#{id}
+	</update>
+	
+	
+	<!-- delete bbs -->
+	<delete id="deleteBBS" parameterType="java.lang.String">
+		DELETE 
+		FROM 
+				bbs 
+		WHERE 
+				id=#{id}
+	</delete>
+	
+	
+</mapper>
