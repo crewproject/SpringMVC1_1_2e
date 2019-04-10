@@ -265,7 +265,7 @@
 
 	</dependencies>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+<!-- 		<sourceDirectory>src</sourceDirectory> -->
 		<defaultGoal>install</defaultGoal>
 		<plugins>
 			<plugin>
