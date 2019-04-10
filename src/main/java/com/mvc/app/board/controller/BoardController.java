@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mvc.app.board.service.BoardService;
 import com.mvc.app.data.BBSVO;
-import com.mvc.app.data.BBSVO;
 import com.mvc.app.data.SearchType;
 
 @Controller

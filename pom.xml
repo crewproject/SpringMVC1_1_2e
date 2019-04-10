@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mvc</groupId>
 	<artifactId>app</artifactId>
-	<name>SpringMVC1e</name>
+	<name>SpringMVC1_1_2e</name>
 	<packaging>jar</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
