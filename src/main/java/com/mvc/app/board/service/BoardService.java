@@ -12,10 +12,10 @@ public interface BoardService {
 	public BBSVO getOneBBS(String id);
 
 	//dao를 통해 bbs목록을를 받아온다.
-	public List<BBSVO> getListBBS();
+	public List<Map<String, ?>> getListBBS();
 	
 	//dao를 통해 name 또는 title 또는 comment로 검색한다.
-	public List<BBSVO> getSearchListBBS(SearchType searchType, String text);
+	public List<Map<String, ?>> getSearchListBBS(SearchType searchType, String text);
 	
 	//dao를 통해 bbs를 추가한다.
 	public void createBBS(BBSVO vo);

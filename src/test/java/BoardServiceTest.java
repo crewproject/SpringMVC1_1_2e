@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,7 +31,7 @@ public class BoardServiceTest {
 	@Test @Ignore
 	public void testGetSearchListBBS() {
 		
-		List<BBSVO> bbsList = bs.getSearchListBBS(SearchType.COMMENT, "update");
+		List<Map<String,?>> bbsList = bs.getSearchListBBS(SearchType.COMMENT, "update");
 		System.out.println("bbsList : "+bbsList);
 		printBBSList(bbsList);
 	}
@@ -50,10 +51,9 @@ public class BoardServiceTest {
 	}
 
 	// boardService의 getListBBS()를 테스트한다.
-	@Test 
-	@Ignore
+	@Test //@Ignore
 	public void testGetListBBS() {
-		List<BBSVO> bbsList = bs.getListBBS();
+		List<Map<String,?>> bbsList = bs.getListBBS();
 		printBBSList(bbsList);
 	}
 
@@ -90,14 +90,14 @@ public class BoardServiceTest {
 		bs.removeBBS(id);
 	}
 	
-	public void printBBSList(List<BBSVO> bbsList) {
+	public void printBBSList(List<Map<String,?>> bbsList) {
 		System.out.println("=========boardServiceTest - getList Test============");
-		for (BBSVO vo : bbsList) {
-			System.out.println("id : " + vo.getId());
-			System.out.println("name : " + vo.getName());
-			System.out.println("title : " + vo.getTitle());
-			System.out.println("wdate : " + vo.getWdate());
-			System.out.println("see : " + vo.getSee());
+		for (Map<String, ?> map : bbsList) {
+			System.out.println("id : " + map.get("id"));
+			System.out.println("name : " + map.get("name"));
+			System.out.println("title : " + map.get("title"));
+			System.out.println("wdate : " + map.get("wdate"));
+			System.out.println("see : " + map.get("see"));
 			System.out.println("=====================");
 		}
 	}

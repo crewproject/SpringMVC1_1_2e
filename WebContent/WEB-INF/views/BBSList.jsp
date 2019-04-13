@@ -47,11 +47,11 @@
 		</tr>
 		<c:forEach var="vo" items="${vo}">
 			<tr>
-				<td><a href='/getone/${vo.id}'>${vo.id}</a></td>
-				<td>${vo.title}</td>
-				<td>${vo.name}</td>
-				<td>${vo.wdate}</td>
-				<td>${vo.see}</td>
+				<td><a href='/getone/${vo["id"]}'>${vo["id"]}</a></td>
+				<td>${vo["title"]}</td>
+				<td>${vo["name"]}</td>
+				<td>${vo["wdate"]}</td>
+				<td>${vo["see"]}</td>
 			</tr>
 		</c:forEach>
 	</table>

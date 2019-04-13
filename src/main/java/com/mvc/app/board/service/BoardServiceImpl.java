@@ -39,7 +39,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BBSVO> getListBBS() {
+	public List<Map<String, ?>> getListBBS() {
 		setBoardDAO();
 		return boardDAO.selectListBBS();
 	}
@@ -64,7 +64,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BBSVO> getSearchListBBS(SearchType searchType, String text) {
+	public List<Map<String,?>> getSearchListBBS(SearchType searchType, String text) {
 		setBoardDAO();
 		return boardDAO.selectSearchListBBS(searchType, text);
 	}

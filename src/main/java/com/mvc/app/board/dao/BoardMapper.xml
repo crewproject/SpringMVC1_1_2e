@@ -48,7 +48,7 @@
 			  id=#{id}
 	</select>
 	<!-- select list -->
-	<select id="selectListBBS" resultType="com.mvc.app.data.BBSVO">
+	<select id="selectListBBS" resultType="java.util.HashMap">
 		SELECT 
 			 id, name, title, 
 			 DATE_FORMAT(wdate, '%X/%c/%e') "wdate",
@@ -59,7 +59,7 @@
 	
 	<!-- ${}은 ''없이 검색되고 ${}는 ''가 자동으로 추가된다. -->
 	<!-- select list for search-->
-	<select id="selectSearchListBBS" resultType="com.mvc.app.data.BBSVO">
+	<select id="selectSearchListBBS" resultType="java.util.HashMap">
 		SELECT 
 			 id, name, title, 
 			 DATE_FORMAT(wdate, '%X/%c/%e') "wdate",

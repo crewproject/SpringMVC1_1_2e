@@ -19,10 +19,10 @@ public interface BoardDAO {
 	public BBSVO selectOneBBS(String id);
 
 	// bbs 목록을 가져온다.
-	public List<BBSVO> selectListBBS();
+	public List<Map<String, ?>> selectListBBS();
 	
 	// name 또는 title또는 comment로 검색한 결과를 가져온다.
-	public List<BBSVO> selectSearchListBBS(
+	public List<Map<String, ?>> selectSearchListBBS(
 			@Param("searchType") SearchType searchType,
 			@Param("text") String text);
 

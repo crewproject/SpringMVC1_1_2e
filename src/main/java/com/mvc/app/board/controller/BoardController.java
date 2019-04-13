@@ -65,7 +65,7 @@ public class BoardController {
 			}
 		}
 		
-		List<BBSVO> bbsList = boardService.getListBBS();
+		List<Map<String, ?>> bbsList = boardService.getListBBS();
 		model.addAttribute("vo", bbsList);
 		
 		return "BBSList";
