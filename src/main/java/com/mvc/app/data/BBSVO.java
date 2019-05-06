@@ -1,11 +1,15 @@
 package com.mvc.app.data;
 
+import com.mvc.app.data.constraint.CreateBBSVOConstraint;
+import com.mvc.app.data.constraint.CreateConstraintGroup;
+
+@CreateBBSVOConstraint(groups=CreateConstraintGroup.class)
 public class BBSVO {
 
     private Integer id;
 
     private String name;
-
+    
     private String email;
 
     private String pass;
@@ -13,7 +17,7 @@ public class BBSVO {
     private String title;
 
     private String comment;
-
+    
     private String wdate;
 
     private String ip;
