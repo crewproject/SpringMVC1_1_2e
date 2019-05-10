@@ -6,29 +6,29 @@ import java.util.Map;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.mvc.app.board.service.BoardService;
 import com.mvc.app.data.BBSVO;
-import com.mvc.app.data.constraint.CreateBBSVOConstraint;
+import com.mvc.app.data.constraint.UpdateBBSVOConstraint;
 
-public class BBSCreateValidator implements ConstraintValidator<CreateBBSVOConstraint, BBSVO> {
-	//Hibernate Validator에서 구현한 이메일 검증기
-	private static final EmailValidator emailValidator = new EmailValidator();
+public class BBSUpdateValidator implements ConstraintValidator<UpdateBBSVOConstraint, BBSVO> {
 	//영어를 한국어로 바꿔주는 맵
 	private static final Map<String, String> stringConverter = new HashMap<String, String>();
 	//각 문자열 항목을 담는 맵
 	private static Map<String, String> stringMap = new HashMap<String, String>();
 	
+	@Autowired
+	BoardService boardService;
+	
 	static {//stringConverter 초기화
-		stringConverter.put("name", "이름");
-		stringConverter.put("email", "이메일");
 		stringConverter.put("pass", "비밀번호");
 		stringConverter.put("title", "제목");
 		stringConverter.put("comment", "내용");
 	}
 	
 	@Override
-	public void initialize(CreateBBSVOConstraint constraintAnnotation) {
+	public void initialize(UpdateBBSVOConstraint constraintAnnotation) {
 	}
 
 	@Override
@@ -46,8 +46,6 @@ public class BBSCreateValidator implements ConstraintValidator<CreateBBSVOConstr
 			return isValid;
 		} 
 		
-		stringMap.put("name", vo.getName());
-		stringMap.put("email", vo.getEmail());
 		stringMap.put("pass", vo.getPass());
 		stringMap.put("title", vo.getTitle());
 		stringMap.put("comment", vo.getComment());
@@ -63,15 +61,31 @@ public class BBSCreateValidator implements ConstraintValidator<CreateBBSVOConstr
 				.addConstraintViolation();
 			}
 		}
-		//email 형식 검사
-		String email = stringMap.get("email");
-		if (stringIsNotNullOrEmpty(email)&&!emailValidator.isValid(email, context)) {
+		
+		if(vo.getId()==null||vo.getId()<=0) {
 			isValid = isValid&&false;
-			context.buildConstraintViolationWithTemplate(
-					"이메일이 형식에 맞지 않습니다.")
-			.addPropertyNode("BBSVO.email")
+			context.buildConstraintViolationWithTemplate("반드시 id의 값이 존재하고 1 이상이어야 됩니다.")
+			.addPropertyNode("BBSVO.아이디")
 			.addConstraintViolation();
-		} 
+			return isValid;
+		}
+		
+//		BBSVO dbvo = boardService.getOneBBS(String.valueOf(vo.getId()));
+//		
+//		if(dbvo == null) {
+//			isValid = isValid&&false;
+//			context.buildConstraintViolationWithTemplate("존재하지 않는 아이디입니다.")
+//			.addPropertyNode("BBSVO.아이디")
+//			.addConstraintViolation();
+//			return isValid;
+//		}
+//		
+//		if(dbvo.getPass().equals(vo.getPass())) {
+//			isValid = isValid&&false;
+//			context.buildConstraintViolationWithTemplate("패스워드가 일치하지 않습니다.")
+//			.addPropertyNode("BBSVO.패스워드")
+//			.addConstraintViolation();
+//		}
 		return isValid;
 	}
 	
