@@ -50,7 +50,5 @@
 			ref="sqlSessionFactory" />
 	</bean>
 	
-	<!-- aop -->
-	<aop:aspectj-autoproxy />
 	
 </beans>

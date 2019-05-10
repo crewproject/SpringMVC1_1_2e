@@ -2,8 +2,14 @@ package com.mvc.app.data;
 
 import com.mvc.app.data.constraint.CreateBBSVOConstraint;
 import com.mvc.app.data.constraint.CreateConstraintGroup;
+import com.mvc.app.data.constraint.DeleteBBSVOConstraint;
+import com.mvc.app.data.constraint.DeleteConstraintGroup;
+import com.mvc.app.data.constraint.UpdateBBSVOConstraint;
+import com.mvc.app.data.constraint.UpdateConstraintGroup;
 
 @CreateBBSVOConstraint(groups=CreateConstraintGroup.class)
+@UpdateBBSVOConstraint(groups=UpdateConstraintGroup.class)
+@DeleteBBSVOConstraint(groups=DeleteConstraintGroup.class)
 public class BBSVO {
 
     private Integer id;

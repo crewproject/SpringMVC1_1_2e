@@ -79,8 +79,10 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public String deleteBBS(@ModelAttribute("id") String id) {
-		boardService.removeBBS(id);
+	public String deleteBBS(
+			BBSVO vo,
+			Boolean validation) {
+		if(!validation)boardService.removeBBS(String.valueOf(vo.getId()));
 		return "redirect:/list";
 	}
 
@@ -90,9 +92,9 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insertBBS(@ModelAttribute BBSVO vo, HttpServletRequest request) {
+	public String insertBBS(@ModelAttribute BBSVO vo, HttpServletRequest request, Boolean violation) {
 		vo.setIp(request.getRemoteAddr());
-		boardService.createBBS(vo);
+		if(!violation)boardService.createBBS(vo);
 		return "redirect:/list";
 	}
 
@@ -115,13 +117,21 @@ public class BoardController {
 	}	
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updateBBS(BBSVO vo) {
+	public String updateBBS(
+			BBSVO vo,
+			Model model,
+			Boolean violation
+			) {
+		
 		//bbs update
 		System.out.println("update vo "+vo);
 		System.out.println("vo.id : "+vo.getId());
 		System.out.println("vo.title : "+vo.getTitle());
 		System.out.println("vo.comment : "+vo.getComment());
 		boardService.modifyBBS(vo);
+		
+		if(violation) return "redirect:/updateBBS";
+		
 		return "redirect:/getone/" + vo.getId();
 	}
 

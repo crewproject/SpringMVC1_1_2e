@@ -3,12 +3,9 @@ package com.mvc.app.board.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mvc.app.board.service.BoardService;
 import com.mvc.app.data.BBSVO;
 import com.mvc.app.data.SearchType;
-import com.mvc.app.data.constraint.CreateConstraintGroup;
+import com.mvc.app.data.constraint.validator.ValidatorInstance;
 
 @RestController
 @RequestMapping("/rest")
@@ -37,17 +34,12 @@ public class HTTPAPIController {
 	@PostMapping("/newbbs")
 	public ResponseEntity<Void> insertBBS(
 			@ModelAttribute BBSVO vo,
-			HttpServletRequest request
+			HttpServletRequest request,
+			Boolean violation
 			){
-				
-		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-		Set<ConstraintViolation<BBSVO>> violations = validator.validate(vo, CreateConstraintGroup.class);
-		System.out.println("has error? :"+!violations.isEmpty());
-		
-		if(!violations.isEmpty()) {
-			for(ConstraintViolation<BBSVO> violation : violations) {
-				System.out.println(violation.getMessage());
-			}
+		System.out.println("violation : "+violation);
+		if(violation) {
+			System.out.println("Violation!!!!");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		vo.setIp(request.getRemoteAddr());
@@ -94,14 +86,20 @@ public class HTTPAPIController {
 	}
 
 	@PatchMapping("/bbs")
-	public ResponseEntity<Void> updateBBS(@ModelAttribute BBSVO vo) {
-		boardService.modifyBBS(vo);
+	public ResponseEntity<Void> updateBBS(
+			BBSVO vo,
+			Boolean violation
+			) {
+		if(!violation) boardService.modifyBBS(vo);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
-	@DeleteMapping("/bbs/{id}")
-	public ResponseEntity<Void> deleteBBS(@PathVariable int id) {
-		boardService.removeBBS(String.valueOf(id));
+	@DeleteMapping("/bbs")
+	public ResponseEntity<Void> deleteBBS(
+			BBSVO vo,
+			Boolean validation
+			) {
+		if(!validation)boardService.removeBBS(String.valueOf(vo.getId()));
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }
