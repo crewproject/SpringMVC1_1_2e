@@ -25,17 +25,17 @@ public class ControllerParameterViolationAop {
 	@Autowired
 	ValidatorInstance validatorInstance;
 	//BBS를 생성하는 컨트롤러의 파라미터로 오는 VO를 검증한다.
-	@Around("execution(* com..controller.*Controller.insertBBS(..)))")
+	@Around("execution(* insertBBS(..))")
 	public void createValidation(ProceedingJoinPoint joinPoint) throws Throwable {
 		BBSValidation(joinPoint,CreateConstraintGroup.class);
 	}
 	
-	@Around("execution(* com..controller.*Controller.updateBBS(..))")
+	@Around("execution(* updateBBS(..))")
 	public void updateValidation(ProceedingJoinPoint joinPoint) throws Throwable {
 		BBSValidation(joinPoint,UpdateConstraintGroup.class);
 	}
 	
-	@Around("execution(* com..controller.*Controller.deleteBBS(..))")
+	@Around("execution(* deleteBBS(..))")
 	public void deleteValidation(ProceedingJoinPoint joinPoint) throws Throwable {
 		BBSValidation(joinPoint,DeleteConstraintGroup.class);
 	}
@@ -53,6 +53,8 @@ public class ControllerParameterViolationAop {
 		Model model = null;
 		// 검증할 VO객체
 		BBSVO vo = null;
+		
+		Set<ConstraintViolation<BBSVO>> violations;
 
 		// 컨트롤러의 파라미터들을 가져온다.
 		for (Object obj : joinPoint.getArgs()) {
@@ -61,6 +63,8 @@ public class ControllerParameterViolationAop {
 				model = (Model) obj;
 			} else if (obj instanceof BBSVO) {
 				vo = (BBSVO) obj;
+			} else if (obj instanceof Set) {
+				violations = (Set<ConstraintViolation<BBSVO>>) obj;
 			} else if (obj == null) {
 				violationBool = true;
 			}
@@ -75,7 +79,7 @@ public class ControllerParameterViolationAop {
 			return;
 		}
 		// vo를 검증
-		Set<ConstraintViolation<BBSVO>> violations = validator.validate(vo, group);
+		violations = validator.validate(vo, group);
 
 		// 모델이 있을 경우 모델에 제약 위반 메시지를 넣는다.
 		// [propertyPath]Error를 속성 명으로 넣고

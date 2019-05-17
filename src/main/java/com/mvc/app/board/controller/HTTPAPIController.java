@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mvc.app.board.service.BoardService;
 import com.mvc.app.data.BBSVO;
 import com.mvc.app.data.SearchType;
-import com.mvc.app.data.constraint.validator.ValidatorInstance;
 
 @RestController
 @RequestMapping("/rest")

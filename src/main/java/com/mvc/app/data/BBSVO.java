@@ -7,7 +7,7 @@ import com.mvc.app.data.constraint.DeleteConstraintGroup;
 import com.mvc.app.data.constraint.UpdateBBSVOConstraint;
 import com.mvc.app.data.constraint.UpdateConstraintGroup;
 
-@CreateBBSVOConstraint(groups=CreateConstraintGroup.class)
+@CreateBBSVOConstraint (groups=CreateConstraintGroup.class)
 @UpdateBBSVOConstraint(groups=UpdateConstraintGroup.class)
 @DeleteBBSVOConstraint(groups=DeleteConstraintGroup.class)
 public class BBSVO {

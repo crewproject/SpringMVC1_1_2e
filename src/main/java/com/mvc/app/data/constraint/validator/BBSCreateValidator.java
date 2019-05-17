@@ -41,7 +41,6 @@ public class BBSCreateValidator implements ConstraintValidator<CreateBBSVOConstr
 		if (vo == null) {
 			isValid = isValid&&false;
 			context.buildConstraintViolationWithTemplate("BBSVO가 Null이이면 안됩니다.")
-			.addPropertyNode("BBSVO")
 			.addConstraintViolation();
 			return isValid;
 		} 
@@ -57,9 +56,10 @@ public class BBSCreateValidator implements ConstraintValidator<CreateBBSVOConstr
 			if(!stringIsNotNullOrEmpty(stringMap.get(key))) {
 				isValid = isValid&&false;
 				context.buildConstraintViolationWithTemplate(
-						"반드시 "+stringConverter.get(key)
+						"반드시 "+key//stringConverter.get(key)
 					   +"의 값이 존재하고 공백 문자를 제외한 길이가 0보다 커야 합니다.")
-				.addPropertyNode("BBSVO."+stringConverter.get(key))
+				//.addPropertyNode("BBSVO."+stringConverter.get(key))
+				.addPropertyNode(key)
 				.addConstraintViolation();
 			}
 		}
@@ -69,7 +69,8 @@ public class BBSCreateValidator implements ConstraintValidator<CreateBBSVOConstr
 			isValid = isValid&&false;
 			context.buildConstraintViolationWithTemplate(
 					"이메일이 형식에 맞지 않습니다.")
-			.addPropertyNode("BBSVO.email")
+			//.addPropertyNode("BBSVO.email")
+			.addPropertyNode("email")
 			.addConstraintViolation();
 		} 
 		return isValid;

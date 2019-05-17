@@ -41,7 +41,7 @@ public class BBSUpdateValidator implements ConstraintValidator<UpdateBBSVOConstr
 		if (vo == null) {
 			isValid = isValid&&false;
 			context.buildConstraintViolationWithTemplate("BBSVO가 Null이이면 안됩니다.")
-			.addPropertyNode("BBSVO")
+			//.addPropertyNode("BBSVO")
 			.addConstraintViolation();
 			return isValid;
 		} 
@@ -55,9 +55,10 @@ public class BBSUpdateValidator implements ConstraintValidator<UpdateBBSVOConstr
 			if(!stringIsNotNullOrEmpty(stringMap.get(key))) {
 				isValid = isValid&&false;
 				context.buildConstraintViolationWithTemplate(
-						"반드시 "+stringConverter.get(key)
+						"반드시 "+key//stringConverter.get(key)
 					   +"의 값이 존재하고 공백 문자를 제외한 길이가 0보다 커야 합니다.")
-				.addPropertyNode("BBSVO."+stringConverter.get(key))
+				//.addPropertyNode("BBSVO."+stringConverter.get(key))
+				.addPropertyNode(key)
 				.addConstraintViolation();
 			}
 		}
@@ -65,7 +66,8 @@ public class BBSUpdateValidator implements ConstraintValidator<UpdateBBSVOConstr
 		if(vo.getId()==null||vo.getId()<=0) {
 			isValid = isValid&&false;
 			context.buildConstraintViolationWithTemplate("반드시 id의 값이 존재하고 1 이상이어야 됩니다.")
-			.addPropertyNode("BBSVO.아이디")
+			//.addPropertyNode("BBSVO.아이디")
+			.addPropertyNode("id")
 			.addConstraintViolation();
 			return isValid;
 		}
