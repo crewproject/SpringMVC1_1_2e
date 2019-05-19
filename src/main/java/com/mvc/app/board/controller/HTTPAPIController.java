@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mvc.app.board.service.BoardService;
 import com.mvc.app.data.BBSVO;
 import com.mvc.app.data.SearchType;
+import com.mvc.app.data.constraint.CreateConstraintGroup;
+import com.mvc.app.data.constraint.DeleteConstraintGroup;
+import com.mvc.app.data.constraint.UpdateConstraintGroup;
+import com.mvc.app.data.constraint.validator.ValidationGroup;
 
 @RestController
 @RequestMapping("/rest")
@@ -30,13 +36,13 @@ public class HTTPAPIController {
 	BoardService boardService;
 
 	@PostMapping("/newbbs")
+	@ValidationGroup(CreateConstraintGroup.class)
 	public ResponseEntity<Void> insertBBS(
 			@ModelAttribute BBSVO vo,
 			HttpServletRequest request,
-			Boolean violation
+			Errors errors
 			){
-		System.out.println("violation : "+violation);
-		if(violation) {
+		if(errors.hasErrors()) {
 			System.out.println("Violation!!!!");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -84,20 +90,23 @@ public class HTTPAPIController {
 	}
 
 	@PatchMapping("/bbs")
+	@ValidationGroup(UpdateConstraintGroup.class)
 	public ResponseEntity<Void> updateBBS(
 			BBSVO vo,
-			Boolean violation
+			Errors errors
 			) {
-		if(!violation) boardService.modifyBBS(vo);
+		if(!errors.hasErrors()) boardService.modifyBBS(vo);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	@DeleteMapping("/bbs")
+	@ValidationGroup(DeleteConstraintGroup.class)
 	public ResponseEntity<Void> deleteBBS(
 			BBSVO vo,
-			Boolean validation
+			Errors errors,
+			BindingResult result
 			) {
-		if(!validation)boardService.removeBBS(String.valueOf(vo.getId()));
+		if(!errors.hasErrors())boardService.removeBBS(String.valueOf(vo.getId()));
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }
